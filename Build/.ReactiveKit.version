@@ -1,9 +1,0 @@
-{
-  "commitish" : "v3.8.0",
-  "iOS" : [
-    {
-      "name" : "ReactiveKit",
-      "hash" : "a02e903c4344e2ef369bafed8240ee11c4504b5c7ae7df184d5eac01fd216ad3"
-    }
-  ]
-}
