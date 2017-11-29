@@ -6,3 +6,5 @@ Build/iOS/RxCocoa.framework.dSYM/ filter=lfs diff=lfs merge=lfs -text
 Build/iOS/RxCocoa.framework/RxCocoa filter=lfs diff=lfs merge=lfs -text
 Build/iOS/SDWebImage.framework.dSYM filter=lfs diff=lfs merge=lfs -text
 Build/iOS/SDWebImage.framework/SDWebImage filter=lfs diff=lfs merge=lfs -text
+Build/iOS/TTTAttributedLabel.framework/TTTAttributedLabel filter=lfs diff=lfs merge=lfs -text
+Build/iOS/TTTAttributedLabel.framework.dSYM filter=lfs diff=lfs merge=lfs -text

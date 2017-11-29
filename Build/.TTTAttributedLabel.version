@@ -1,0 +1,9 @@
+{
+  "commitish" : "2.0.0",
+  "iOS" : [
+    {
+      "name" : "TTTAttributedLabel",
+      "hash" : "881e51c970edc92342ab633c43b0fc8717a751fd3a47412aba063861977e0040"
+    }
+  ]
+}
