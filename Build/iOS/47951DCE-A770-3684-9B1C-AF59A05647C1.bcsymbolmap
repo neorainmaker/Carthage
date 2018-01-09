@@ -23,7 +23,7 @@ _PredictorSub11_C
 _PredictorSub12_C
 _PredictorSub13_C
 _lossless_enc_last_cpuinfo_used
-Apple LLVM version 9.0.0 (clang-900.0.37)
+Apple LLVM version 9.0.0 (clang-900.0.38)
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/lossless_enc.c
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage
 PredictorSub13_C
@@ -93,12 +93,14 @@ _GetResidual
 _MaxDiffBetweenPixels
 _NearLosslessComponent
 _PredictionCostSpatial
+_GetPredictionCostCrossColorRed
 _GetPredictionCostCrossColorBlue
 _GetBestGreenRedToBlue.offset
 _GetBestGreenRedToBlue.delta_lut
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/enc/predictor_enc.c
 GetPredictionCostCrossColorBlue
 PredictionCostCrossColor
+GetPredictionCostCrossColorRed
 PredictionCostSpatial
 NearLosslessComponent
 MaxDiffBetweenPixels
@@ -118,7 +120,6 @@ MultipliersToColorCode
 GetBestColorTransformForTile
 GetBestGreenRedToBlue
 GetBestGreenToRed
-GetPredictionCostCrossColorRed
 ColorCodeToMultipliers
 VP8LSubSampleSize
 VP8LResidualImage
@@ -317,7 +318,6 @@ WebPInitConvertARGBToYUVSSE2
 WebPInitSamplersSSE2
 _InitLeft
 _ImportBlock
-_ImportLine
 _VP8TopLeftI4
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/enc/iterator_enc.c
 VP8IteratorRotateI4
@@ -333,9 +333,9 @@ VP8IteratorBytesToNz
 VP8IteratorNzToBytes
 VP8IteratorExport
 ExportBlock
-ImportLine
 ImportBlock
 VP8IteratorImport
+ImportLine
 MinSize
 VP8IteratorProgress
 VP8IteratorInit
@@ -435,47 +435,38 @@ PaletteComponentDistance
 PaletteHasNonMonotonousDeltas
 VP8LEncoderNew
 _DC16TopLeft
+_TransformOne.constants
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/dec_neon.c
 DC8
 ConvertU8ToS16
 DC16TopLeft
-Store16x2
-DoFilter2
-ApplyFilter2
-FlipSignBack
-GetBaseDelta
-FlipSign
-NeedsFilter
-Load16x4
-Store2x16
-Store2x8
-Load4x16
-Load4x8
-Store4x8x2
-DoFilter4
-ApplyFilter4
-GetBaseDelta0
-ApplyFilter2NoFlip
-NeedsHev
-NeedsFilter2
-Load8x8x2T
-Store6x8x2
-DoFilter6
-ApplyFilter6
 Store8x4x2
 Store8x2x2
+DoFilter4
+ApplyFilter4
+FlipSignBack
+GetBaseDelta0
+ApplyFilter2NoFlip
+GetBaseDelta
+FlipSign
+NeedsHev
+NeedsFilter2
+NeedsFilter
 Load8x8x2
-Store4x16
-Store4x8
+DoFilter6
+ApplyFilter6
+Store2x16
+Store2x8
 Load8x16
+Load4x16
 Store16x4
+Store16x2
+Load16x4
 Load16x8
 Transpose4x4
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/./neon.h
 Add4x4
 SaturateAndStore4x4
-TransformPass
-Transpose8x2
 VP8DspInitNEON
 _Init
 _Reset
@@ -563,14 +554,10 @@ _SSE16x16_NEON
 _SSE16x8_NEON
 _SSE8x8_NEON
 _SSE4x4_NEON
-_QuantizeBlock
-_Quantize2Blocks
-_ITransformOne
+_ITransformOne.kC1C2
+_kCoeff16
+_kCoeff32
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/enc_neon.c
-ITransformOne
-Quantize2Blocks
-QuantizeBlock
-Quantize
 SSE4x4_NEON
 SumToInt
 Load4x4
@@ -579,6 +566,7 @@ SSE16x8_NEON
 AccumulateSSE16
 SSE16x16_NEON
 CollectHistogram
+FTransform
 Disto16x16
 Disto4x4
 DistoSum
@@ -587,14 +575,13 @@ DistoTranspose4x4S16
 DistoLoadW
 DistoVerticalPass
 FTransformWHT
-FTransform
-Transpose4x4_S16
-DiffU8ToS16
 ITransform
+ITransformOne
 VP8EncDspInitNEON
 -[UIImage(WebP) sd_webpLoopCount]
 +[UIImage(WebP) sd_imageWithWebPData:]
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/UIImage+WebP.m
+_kCoeffs1
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/upsampling_neon.c
 Upsample16Pixels
 WebPInitUpsamplersNEON
@@ -742,15 +729,20 @@ WebPSearchOptimalDeltaPalette
 -[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]
 ___96-[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]_block_invoke
 ___96-[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]_block_invoke_2
-___96-[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]_block_invoke.10
-___copy_helper_block_.11
-___destroy_helper_block_.12
-___copy_helper_block_.14
-___destroy_helper_block_.15
-___block_descriptor_tmp.13
+___96-[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]_block_invoke_3
+___96-[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]_block_invoke.14
+___copy_helper_block_.15
+___destroy_helper_block_.16
+___copy_helper_block_.18
+___destroy_helper_block_.19
+___copy_helper_block_.21
+___destroy_helper_block_.22
 ___block_descriptor_tmp.17
+___block_descriptor_tmp.20
+___block_descriptor_tmp.24
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/FLAnimatedImage/FLAnimatedImageView+WebCache.m
-__96-[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]_block_invoke.10
+__96-[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]_block_invoke.14
+__96-[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]_block_invoke_3
 __96-[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]_block_invoke_2
 __96-[FLAnimatedImageView(WebCache) sd_setImageWithURL:placeholderImage:options:progress:completed:]_block_invoke
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/enc/cost_enc.c
@@ -854,10 +846,12 @@ WebPMuxNew
 Vendors/libwebp/src/webp/mux.h
 FreeImageData
 WebPGetFeatures
+CGRectMake
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGGeometry.h
 Vendors/libwebp/src/webp/demux.h
 __34+[SDWebImageWebPCoder sharedCoder]_block_invoke
 _dispatch_once
-/Applications/Xcode90.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/usr/include/dispatch/once.h
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk/usr/include/dispatch/once.h
 -[FLAnimatedImage frameCacheSizeCurrent]
 -[FLAnimatedImage setFrameCacheSizeMax:]
 -[FLAnimatedImage setFrameCacheSizeMaxInternal:]
@@ -1037,9 +1031,8 @@ __49-[FLAnimatedImage resetFrameCacheSizeMaxInternal]_block_invoke
 __56-[FLAnimatedImage growFrameCacheSizeAfterMemoryWarning:]_block_invoke
 __42-[FLAnimatedImage purgeFrameCacheIfNeeded]_block_invoke
 NSMaxRange
-/Applications/Xcode90.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSRange.h
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSRange.h
 __38-[FLAnimatedImage frameIndexesToCache]_block_invoke
-NSMakeRange
 __32+[FLAnimatedImage sizeForImage:]_block_invoke
 __42-[FLAnimatedImage addFrameIndexesToCache:]_block_invoke_4
 __42-[FLAnimatedImage addFrameIndexesToCache:]_block_invoke_3
@@ -1070,8 +1063,11 @@ _SSE8x8
 _SSE16x8
 _SSE4x4
 _Mean16x4
+_QuantizeBlock
+_Quantize2Blocks
 _Copy4x4
 _Copy16x8
+_ITransformOne
 _TrueMotion
 _TTransform
 _ssim_last_cpuinfo_used
@@ -1088,6 +1084,8 @@ HorizontalPred
 Copy16x8
 Copy
 Copy4x4
+Quantize2Blocks
+QuantizeBlock
 QUANTDIV
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/../enc/vp8i_enc.h
 Mean16x4
@@ -1144,6 +1142,7 @@ _ClearBackwardRefs
 _BackwardRefsNewBlock
 _BackwardReferencesLz77
 _BackwardReferences2DLocality
+_AddSingleLiteral
 _DistanceToPlaneCode
 _AddSingleLiteralWithCostModel
 _PushInterval
@@ -1174,19 +1173,18 @@ VP8LColorCacheInsert
 GetCacheCost
 VP8LColorCacheContains
 DistanceToPlaneCode
+AddSingleLiteral
+BackwardRefsCursorAdd
+VP8LColorCacheSet
+PixOrCopyCreateCacheIdx
+VP8LColorCacheLookup
+VP8LColorCacheGetIndex
 BackwardReferences2DLocality
 VP8LRefsCursorNextBlock
 PixOrCopyIsCopy
 VP8LRefsCursorInit
 BackwardReferencesLz77
-BackwardRefsCursorAdd
 PixOrCopyCreateCopy
-AddSingleLiteral
-PixOrCopyCreateLiteral
-VP8LColorCacheSet
-PixOrCopyCreateCacheIdx
-VP8LColorCacheLookup
-VP8LColorCacheGetIndex
 HashChainFindLength
 HashChainFindCopy
 HashChainFindOffset
@@ -1194,6 +1192,7 @@ VP8LGetBackwardReferences
 GetBackwardReferences
 BackwardReferencesTraceBackwards
 BackwardReferencesHashChainFollowChosenPath
+PixOrCopyCreateLiteral
 TraceBackwards
 BackwardReferencesHashChainDistanceOnly
 UpdateCostPerIndex
@@ -1320,18 +1319,24 @@ VP8EncDspCostInitMIPSdspR2
 ___55-[UIImageView(WebCache) sd_setAnimationImagesWithURLs:]_block_invoke
 ___55-[UIImageView(WebCache) sd_setAnimationImagesWithURLs:]_block_invoke_2
 ___55-[UIImageView(WebCache) sd_setAnimationImagesWithURLs:]_block_invoke_3
-___55-[UIImageView(WebCache) sd_setAnimationImagesWithURLs:]_block_invoke.37
-___copy_helper_block_.38
-___destroy_helper_block_.39
-___copy_helper_block_.41
-___destroy_helper_block_.42
-___copy_helper_block_.47
-___destroy_helper_block_.48
+___55-[UIImageView(WebCache) sd_setAnimationImagesWithURLs:]_block_invoke.39
+___copy_helper_block_.40
+___destroy_helper_block_.41
+___copy_helper_block_.43
+___destroy_helper_block_.44
+___copy_helper_block_.51
+___destroy_helper_block_.52
+-[UIImageView(WebCache) sd_animationOperationArray]
 -[UIImageView(WebCache) sd_cancelCurrentAnimationImagesLoad]
-___block_descriptor_tmp.40
-___block_descriptor_tmp.50
+___block_descriptor_tmp.42
+___block_descriptor_tmp.46
+___block_descriptor_tmp.54
+_animationLoadOperationKey
+l_OBJC_PROTOCOL_$_SDWebImageOperation
+l_OBJC_LABEL_PROTOCOL_$_SDWebImageOperation
+l_OBJC_PROTOCOL_REFERENCE_$_SDWebImageOperation
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/UIImageView+WebCache.m
-__55-[UIImageView(WebCache) sd_setAnimationImagesWithURLs:]_block_invoke.37
+__55-[UIImageView(WebCache) sd_setAnimationImagesWithURLs:]_block_invoke.39
 __55-[UIImageView(WebCache) sd_setAnimationImagesWithURLs:]_block_invoke_3
 __55-[UIImageView(WebCache) sd_setAnimationImagesWithURLs:]_block_invoke_2
 __55-[UIImageView(WebCache) sd_setAnimationImagesWithURLs:]_block_invoke
@@ -1399,64 +1404,61 @@ WebPGetDemuxVersion
 WebPInitSamplersMIPS32
 -[SDWebImageDownloaderOperation init]
 -[SDWebImageDownloaderOperation initWithRequest:inSession:options:]
--[SDWebImageDownloaderOperation dealloc]
 -[SDWebImageDownloaderOperation addHandlersForProgress:completed:]
 ___66-[SDWebImageDownloaderOperation addHandlersForProgress:completed:]_block_invoke
 -[SDWebImageDownloaderOperation callbacksForKey:]
 ___49-[SDWebImageDownloaderOperation callbacksForKey:]_block_invoke
-___copy_helper_block_.39
-___destroy_helper_block_.40
+___copy_helper_block_.37
+___destroy_helper_block_.38
 -[SDWebImageDownloaderOperation cancel:]
 ___40-[SDWebImageDownloaderOperation cancel:]_block_invoke
-___copy_helper_block_.44
-___destroy_helper_block_.45
+___copy_helper_block_.42
+___destroy_helper_block_.43
 -[SDWebImageDownloaderOperation start]
 ___38-[SDWebImageDownloaderOperation start]_block_invoke
-___copy_helper_block_.71
-___destroy_helper_block_.72
-___38-[SDWebImageDownloaderOperation start]_block_invoke.119
-___copy_helper_block_.125
-___destroy_helper_block_.126
+___copy_helper_block_.69
+___destroy_helper_block_.70
+___38-[SDWebImageDownloaderOperation start]_block_invoke.117
+___copy_helper_block_.123
+___destroy_helper_block_.124
 -[SDWebImageDownloaderOperation cancel]
 -[SDWebImageDownloaderOperation cancelInternal]
 ___47-[SDWebImageDownloaderOperation cancelInternal]_block_invoke
-___copy_helper_block_.143
-___destroy_helper_block_.144
 -[SDWebImageDownloaderOperation done]
 -[SDWebImageDownloaderOperation reset]
 ___38-[SDWebImageDownloaderOperation reset]_block_invoke
-___copy_helper_block_.150
-___destroy_helper_block_.151
-___38-[SDWebImageDownloaderOperation reset]_block_invoke.155
-___copy_helper_block_.158
-___destroy_helper_block_.159
+___copy_helper_block_.148
+___destroy_helper_block_.149
+___38-[SDWebImageDownloaderOperation reset]_block_invoke.153
+___copy_helper_block_.156
+___destroy_helper_block_.157
 -[SDWebImageDownloaderOperation setFinished:]
 -[SDWebImageDownloaderOperation setExecuting:]
 -[SDWebImageDownloaderOperation isConcurrent]
 -[SDWebImageDownloaderOperation URLSession:dataTask:didReceiveResponse:completionHandler:]
 ___90-[SDWebImageDownloaderOperation URLSession:dataTask:didReceiveResponse:completionHandler:]_block_invoke
-___copy_helper_block_.186
-___destroy_helper_block_.187
-___90-[SDWebImageDownloaderOperation URLSession:dataTask:didReceiveResponse:completionHandler:]_block_invoke.189
-___copy_helper_block_.190
-___destroy_helper_block_.191
+___copy_helper_block_.184
+___destroy_helper_block_.185
+___90-[SDWebImageDownloaderOperation URLSession:dataTask:didReceiveResponse:completionHandler:]_block_invoke.187
+___copy_helper_block_.188
+___destroy_helper_block_.189
 -[SDWebImageDownloaderOperation URLSession:dataTask:didReceiveData:]
 -[SDWebImageDownloaderOperation URLSession:dataTask:willCacheResponse:completionHandler:]
 -[SDWebImageDownloaderOperation URLSession:task:didCompleteWithError:]
 ___70-[SDWebImageDownloaderOperation URLSession:task:didCompleteWithError:]_block_invoke
-___copy_helper_block_.289
-___destroy_helper_block_.290
+___copy_helper_block_.287
+___destroy_helper_block_.288
 -[SDWebImageDownloaderOperation URLSession:task:didReceiveChallenge:completionHandler:]
 -[SDWebImageDownloaderOperation scaledImageForKey:image:]
 -[SDWebImageDownloaderOperation shouldContinueWhenAppEntersBackground]
 -[SDWebImageDownloaderOperation callCompletionBlocksWithError:]
 -[SDWebImageDownloaderOperation callCompletionBlocksWithImage:imageData:error:finished:]
 ___88-[SDWebImageDownloaderOperation callCompletionBlocksWithImage:imageData:error:finished:]_block_invoke
-___copy_helper_block_.323
-___destroy_helper_block_.324
-___88-[SDWebImageDownloaderOperation callCompletionBlocksWithImage:imageData:error:finished:]_block_invoke.326
-___copy_helper_block_.327
-___destroy_helper_block_.328
+___copy_helper_block_.321
+___destroy_helper_block_.322
+___88-[SDWebImageDownloaderOperation callCompletionBlocksWithImage:imageData:error:finished:]_block_invoke.324
+___copy_helper_block_.325
+___destroy_helper_block_.326
 -[SDWebImageDownloaderOperation isExecuting]
 -[SDWebImageDownloaderOperation isFinished]
 -[SDWebImageDownloaderOperation request]
@@ -1499,19 +1501,17 @@ _OBJC_IVAR_$_SDWebImageDownloaderOperation._finished
 _OBJC_IVAR_$_SDWebImageDownloaderOperation._expectedSize
 _OBJC_IVAR_$_SDWebImageDownloaderOperation._unownedSession
 _OBJC_IVAR_$_SDWebImageDownloaderOperation._barrierQueue
-___block_descriptor_tmp.41
-___block_descriptor_tmp.46
-___block_descriptor_tmp.73
-___block_descriptor_tmp.127
-___block_descriptor_tmp.145
-___block_descriptor_tmp.152
-___block_descriptor_tmp.160
-___block_descriptor_tmp.188
-___block_descriptor_tmp.192
+___block_descriptor_tmp.39
+___block_descriptor_tmp.71
+___block_descriptor_tmp.125
+___block_descriptor_tmp.150
+___block_descriptor_tmp.158
+___block_descriptor_tmp.186
+___block_descriptor_tmp.190
 l_OBJC_PROTOCOL_REFERENCE_$_SDWebImageProgressiveCoder
-___block_descriptor_tmp.291
-___block_descriptor_tmp.325
-___block_descriptor_tmp.329
+___block_descriptor_tmp.289
+___block_descriptor_tmp.323
+___block_descriptor_tmp.327
 _OBJC_IVAR_$_SDWebImageDownloaderOperation._dataTask
 _OBJC_IVAR_$_SDWebImageDownloaderOperation._shouldUseCredentialStorage
 _OBJC_IVAR_$_SDWebImageDownloaderOperation._credential
@@ -1523,8 +1523,6 @@ _OBJC_IVAR_$_SDWebImageDownloaderOperation._backgroundTaskId
 _OBJC_IVAR_$_SDWebImageDownloaderOperation._progressiveCoder
 l_OBJC_PROTOCOL_$_SDWebImageDownloaderOperationInterface
 l_OBJC_LABEL_PROTOCOL_$_SDWebImageDownloaderOperationInterface
-l_OBJC_PROTOCOL_$_SDWebImageOperation
-l_OBJC_LABEL_PROTOCOL_$_SDWebImageOperation
 l_OBJC_PROTOCOL_$_NSURLSessionDelegate
 l_OBJC_LABEL_PROTOCOL_$_NSURLSessionDelegate
 l_OBJC_PROTOCOL_$_NSURLSessionTaskDelegate
@@ -1533,17 +1531,16 @@ l_OBJC_PROTOCOL_$_NSURLSessionDataDelegate
 l_OBJC_LABEL_PROTOCOL_$_NSURLSessionDataDelegate
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/SDWebImageDownloaderOperation.m
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/SDWebImageDownloaderOperation.h
-__88-[SDWebImageDownloaderOperation callCompletionBlocksWithImage:imageData:error:finished:]_block_invoke.326
+__88-[SDWebImageDownloaderOperation callCompletionBlocksWithImage:imageData:error:finished:]_block_invoke.324
 __88-[SDWebImageDownloaderOperation callCompletionBlocksWithImage:imageData:error:finished:]_block_invoke
 __70-[SDWebImageDownloaderOperation URLSession:task:didCompleteWithError:]_block_invoke
 __CGSizeEqualToSize
-/Applications/Xcode90.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGGeometry.h
-__90-[SDWebImageDownloaderOperation URLSession:dataTask:didReceiveResponse:completionHandler:]_block_invoke.189
+__90-[SDWebImageDownloaderOperation URLSession:dataTask:didReceiveResponse:completionHandler:]_block_invoke.187
 __90-[SDWebImageDownloaderOperation URLSession:dataTask:didReceiveResponse:completionHandler:]_block_invoke
-__38-[SDWebImageDownloaderOperation reset]_block_invoke.155
+__38-[SDWebImageDownloaderOperation reset]_block_invoke.153
 __38-[SDWebImageDownloaderOperation reset]_block_invoke
 __47-[SDWebImageDownloaderOperation cancelInternal]_block_invoke
-__38-[SDWebImageDownloaderOperation start]_block_invoke.119
+__38-[SDWebImageDownloaderOperation start]_block_invoke.117
 __38-[SDWebImageDownloaderOperation start]_block_invoke
 __40-[SDWebImageDownloaderOperation cancel:]_block_invoke
 __49-[SDWebImageDownloaderOperation callbacksForKey:]_block_invoke
@@ -1745,6 +1742,8 @@ ___37+[SDWebImageImageIOCoder sharedCoder]_block_invoke
 -[SDWebImageImageIOCoder canEncodeToFormat:]
 -[SDWebImageImageIOCoder encodedDataWithImage:format:]
 +[SDWebImageImageIOCoder shouldDecodeImage:]
++[SDWebImageImageIOCoder canDecodeFromHEICFormat]
+___49+[SDWebImageImageIOCoder canDecodeFromHEICFormat]_block_invoke
 +[SDWebImageImageIOCoder canEncodeToHEICFormat]
 ___47+[SDWebImageImageIOCoder canEncodeToHEICFormat]_block_invoke
 +[SDWebImageImageIOCoder sd_imageOrientationFromImageData:]
@@ -1754,14 +1753,18 @@ _OBJC_IVAR_$_SDWebImageImageIOCoder._imageSource
 _OBJC_IVAR_$_SDWebImageImageIOCoder._width
 _OBJC_IVAR_$_SDWebImageImageIOCoder._height
 _OBJC_IVAR_$_SDWebImageImageIOCoder._orientation
+_canDecodeFromHEICFormat.canDecode
+_canDecodeFromHEICFormat.onceToken
+___block_descriptor_tmp.83
+___block_literal_global.84
 _canEncodeToHEICFormat.canEncode
 _canEncodeToHEICFormat.onceToken
-___block_descriptor_tmp.74
-___block_literal_global.75
+___block_descriptor_tmp.85
+___block_literal_global.86
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/SDWebImageImageIOCoder.m
 __47+[SDWebImageImageIOCoder canEncodeToHEICFormat]_block_invoke
+__49+[SDWebImageImageIOCoder canDecodeFromHEICFormat]_block_invoke
 __37+[SDWebImageImageIOCoder sharedCoder]_block_invoke
-_CheckNonOpaque
 _PictureARGBToYUVA
 _Import
 _ImportYUVAFromRGBA
@@ -1814,6 +1817,7 @@ RGBToGrayF
 InterpolateTwoRows
 Filter2
 InitGammaTablesF
+CheckNonOpaque
 WebPPictureImportBGRX
 WebPPictureImportRGBX
 WebPPictureImportBGRA
@@ -1827,7 +1831,6 @@ WebPPictureSharpARGBToYUVA
 WebPPictureARGBToYUVA
 PictureARGBToYUVA
 WebPPictureARGBToYUVADithered
-CheckNonOpaque
 WebPPictureHasTransparency
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/upsampling_mips_dsp_r2.c
 WebPInitUpsamplersMIPSdspR2
@@ -1846,7 +1849,7 @@ VP8GetBit
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dec/../utils/bit_reader_inl_utils.h
 Vendors/libwebp/src/utils/./utils.h
 VP8LoadNewBytes
-BSwap64
+BSwap32
 Vendors/libwebp/src/utils/./endian_inl_utils.h
 VP8ParseIntraModeRow
 ParseIntraMode
@@ -1868,11 +1871,11 @@ ___45+[SDWebImagePrefetcher sharedImagePrefetcher]_block_invoke
 -[SDWebImagePrefetcher maxConcurrentDownloads]
 -[SDWebImagePrefetcher startPrefetchingAtIndex:]
 ___48-[SDWebImagePrefetcher startPrefetchingAtIndex:]_block_invoke
-___48-[SDWebImagePrefetcher startPrefetchingAtIndex:]_block_invoke_2
-___copy_helper_block_.45
-___destroy_helper_block_.46
-___copy_helper_block_.56
-___destroy_helper_block_.57
+___48-[SDWebImagePrefetcher startPrefetchingAtIndex:]_block_invoke.48
+___copy_helper_block_.49
+___destroy_helper_block_.50
+___copy_helper_block_.60
+___destroy_helper_block_.61
 -[SDWebImagePrefetcher reportStatus]
 -[SDWebImagePrefetcher prefetchURLs:]
 -[SDWebImagePrefetcher prefetchURLs:progress:completed:]
@@ -1905,8 +1908,8 @@ _sharedImagePrefetcher.instance
 _OBJC_IVAR_$_SDWebImagePrefetcher._manager
 _OBJC_IVAR_$_SDWebImagePrefetcher._options
 _OBJC_IVAR_$_SDWebImagePrefetcher._prefetcherQueue
-___block_descriptor_tmp.47
-___block_descriptor_tmp.59
+___block_descriptor_tmp.51
+___block_descriptor_tmp.63
 _OBJC_IVAR_$_SDWebImagePrefetcher._delegate
 _OBJC_IVAR_$_SDWebImagePrefetcher._prefetchURLs
 _OBJC_IVAR_$_SDWebImagePrefetcher._requestedCount
@@ -1917,8 +1920,9 @@ _OBJC_IVAR_$_SDWebImagePrefetcher._completionBlock
 _OBJC_IVAR_$_SDWebImagePrefetcher._progressBlock
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/SDWebImagePrefetcher.m
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/SDWebImagePrefetcher.h
-__48-[SDWebImagePrefetcher startPrefetchingAtIndex:]_block_invoke_2
+__48-[SDWebImagePrefetcher startPrefetchingAtIndex:]_block_invoke.48
 __48-[SDWebImagePrefetcher startPrefetchingAtIndex:]_block_invoke
+__48-[SDWebImagePrefetcher startPrefetchingAtIndex:]_block_invoke_2
 __45+[SDWebImagePrefetcher sharedImagePrefetcher]_block_invoke
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/utils/utils.c
 WebPGetColorPalette
@@ -2051,12 +2055,10 @@ _PopulationCost
 _UpdateHistogramCost
 _HistogramAddEval
 _GetCombinedHistogramEntropy
-_PreparePair
 _UpdateQueueFront
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/enc/histogram_enc.c
 UpdateQueueFront
 SwapHistogramPairs
-PreparePair
 GetCombinedHistogramEntropy
 GetCombinedEntropy
 FinalHuffmanCost
@@ -2071,6 +2073,7 @@ HistogramRemap
 HistogramClear
 HistogramAddThresh
 HistogramSwap
+PreparePair
 HistoQueueInit
 HistogramCombineStochastic
 MyRand
@@ -2201,6 +2204,7 @@ ___40+[SDWebImageDownloader sharedDownloader]_block_invoke
 -[SDWebImageDownloader init]
 -[SDWebImageDownloader initWithSessionConfiguration:]
 -[SDWebImageDownloader createNewSessionWithConfiguration:]
+-[SDWebImageDownloader invalidateSessionAndCancel:]
 -[SDWebImageDownloader dealloc]
 -[SDWebImageDownloader setValue:forHTTPHeaderField:]
 -[SDWebImageDownloader valueForHTTPHeaderField:]
@@ -2211,22 +2215,20 @@ ___40+[SDWebImageDownloader sharedDownloader]_block_invoke
 -[SDWebImageDownloader setOperationClass:]
 -[SDWebImageDownloader downloadImageWithURL:options:progress:completed:]
 ___72-[SDWebImageDownloader downloadImageWithURL:options:progress:completed:]_block_invoke
-___copy_helper_block_.196
-___destroy_helper_block_.197
+___copy_helper_block_.198
+___destroy_helper_block_.199
 -[SDWebImageDownloader cancel:]
 ___31-[SDWebImageDownloader cancel:]_block_invoke
-___copy_helper_block_.210
-___destroy_helper_block_.211
+___copy_helper_block_.212
+___destroy_helper_block_.213
 -[SDWebImageDownloader addProgressCallback:completedBlock:forURL:createCallback:]
 ___81-[SDWebImageDownloader addProgressCallback:completedBlock:forURL:createCallback:]_block_invoke
 ___81-[SDWebImageDownloader addProgressCallback:completedBlock:forURL:createCallback:]_block_invoke_2
 ___81-[SDWebImageDownloader addProgressCallback:completedBlock:forURL:createCallback:]_block_invoke_3
-___copy_helper_block_.213
-___destroy_helper_block_.214
-___copy_helper_block_.216
-___destroy_helper_block_.217
-___copy_helper_block_.225
-___destroy_helper_block_.226
+___copy_helper_block_.215
+___destroy_helper_block_.216
+___copy_helper_block_.218
+___destroy_helper_block_.219
 -[SDWebImageDownloader setSuspended:]
 -[SDWebImageDownloader cancelAllDownloads]
 -[SDWebImageDownloader operationWithTask:]
@@ -2277,11 +2279,10 @@ _OBJC_IVAR_$_SDWebImageDownloader._HTTPHeaders
 _OBJC_IVAR_$_SDWebImageDownloader._barrierQueue
 _OBJC_IVAR_$_SDWebImageDownloader._downloadTimeout
 l_OBJC_PROTOCOL_REFERENCE_$_SDWebImageDownloaderOperationInterface
-___block_descriptor_tmp.199
-___block_descriptor_tmp.212
-___block_descriptor_tmp.215
-___block_descriptor_tmp.218
-___block_descriptor_tmp.227
+___block_descriptor_tmp.201
+___block_descriptor_tmp.214
+___block_descriptor_tmp.217
+___block_descriptor_tmp.220
 _OBJC_IVAR_$_SDWebImageDownloader._urlCredential
 _OBJC_IVAR_$_SDWebImageDownloader._username
 _OBJC_IVAR_$_SDWebImageDownloader._password
@@ -2332,6 +2333,7 @@ ___34+[SDWebImageManager sharedManager]_block_invoke
 -[SDWebImageManager init]
 -[SDWebImageManager initWithCache:downloader:]
 -[SDWebImageManager cacheKeyForURL:]
+-[SDWebImageManager scaledImageForKey:image:]
 -[SDWebImageManager cachedImageExistsForURL:completion:]
 ___56-[SDWebImageManager cachedImageExistsForURL:completion:]_block_invoke
 ___copy_helper_block_.23
@@ -2345,13 +2347,13 @@ ___destroy_helper_block_.34
 ___65-[SDWebImageManager loadImageWithURL:options:progress:completed:]_block_invoke
 ___65-[SDWebImageManager loadImageWithURL:options:progress:completed:]_block_invoke_2
 ___65-[SDWebImageManager loadImageWithURL:options:progress:completed:]_block_invoke_3
-___copy_helper_block_.86
-___destroy_helper_block_.87
-___copy_helper_block_.89
-___destroy_helper_block_.90
-___65-[SDWebImageManager loadImageWithURL:options:progress:completed:]_block_invoke.95
-___copy_helper_block_.98
-___destroy_helper_block_.99
+___copy_helper_block_.91
+___destroy_helper_block_.92
+___copy_helper_block_.94
+___destroy_helper_block_.95
+___65-[SDWebImageManager loadImageWithURL:options:progress:completed:]_block_invoke.100
+___copy_helper_block_.108
+___destroy_helper_block_.109
 -[SDWebImageManager saveImageToCache:forURL:]
 -[SDWebImageManager cancelAll]
 -[SDWebImageManager isRunning]
@@ -2359,9 +2361,11 @@ ___destroy_helper_block_.99
 -[SDWebImageManager callCompletionBlockForOperation:completion:error:url:]
 -[SDWebImageManager callCompletionBlockForOperation:completion:image:data:error:cacheType:finished:url:]
 ___104-[SDWebImageManager callCompletionBlockForOperation:completion:image:data:error:cacheType:finished:url:]_block_invoke
-___copy_helper_block_.123
-___destroy_helper_block_.124
-___104-[SDWebImageManager callCompletionBlockForOperation:completion:image:data:error:cacheType:finished:url:]_block_invoke.126
+___copy_helper_block_.128
+___destroy_helper_block_.129
+___104-[SDWebImageManager callCompletionBlockForOperation:completion:image:data:error:cacheType:finished:url:]_block_invoke.131
+___copy_helper_block_.132
+___destroy_helper_block_.133
 -[SDWebImageManager delegate]
 -[SDWebImageManager setDelegate:]
 -[SDWebImageManager imageCache]
@@ -2391,11 +2395,10 @@ _OBJC_IVAR_$_SDWebImageManager._failedURLs
 _OBJC_IVAR_$_SDWebImageManager._runningOperations
 ___block_descriptor_tmp.25
 ___block_descriptor_tmp.35
-___block_descriptor_tmp.88
-___block_descriptor_tmp.92
-___block_descriptor_tmp.100
-___block_descriptor_tmp.106
-___block_descriptor_tmp.125
+___block_descriptor_tmp.93
+___block_descriptor_tmp.111
+___block_descriptor_tmp.130
+___block_descriptor_tmp.134
 _OBJC_IVAR_$_SDWebImageManager._delegate
 _OBJC_IVAR_$_SDWebImageManager._cacheKeyFilter
 _OBJC_IVAR_$_SDWebImageCombinedOperation._cancelBlock
@@ -2403,9 +2406,9 @@ _OBJC_IVAR_$_SDWebImageCombinedOperation._cancelled
 _OBJC_IVAR_$_SDWebImageCombinedOperation._cacheOperation
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/SDWebImageManager.m
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/SDWebImageManager.h
-__104-[SDWebImageManager callCompletionBlockForOperation:completion:image:data:error:cacheType:finished:url:]_block_invoke.126
+__104-[SDWebImageManager callCompletionBlockForOperation:completion:image:data:error:cacheType:finished:url:]_block_invoke.131
 __104-[SDWebImageManager callCompletionBlockForOperation:completion:image:data:error:cacheType:finished:url:]_block_invoke
-__65-[SDWebImageManager loadImageWithURL:options:progress:completed:]_block_invoke.95
+__65-[SDWebImageManager loadImageWithURL:options:progress:completed:]_block_invoke.100
 __65-[SDWebImageManager loadImageWithURL:options:progress:completed:]_block_invoke_3
 __65-[SDWebImageManager loadImageWithURL:options:progress:completed:]_block_invoke_2
 __65-[SDWebImageManager loadImageWithURL:options:progress:completed:]_block_invoke
@@ -2459,21 +2462,22 @@ MuxImageFinalize
 +[SDWebImageCodersManager sharedInstance]
 ___41+[SDWebImageCodersManager sharedInstance]_block_invoke
 -[SDWebImageCodersManager init]
--[SDWebImageCodersManager dealloc]
 -[SDWebImageCodersManager addCoder:]
 ___36-[SDWebImageCodersManager addCoder:]_block_invoke
-___copy_helper_block_.75
-___destroy_helper_block_.76
+___copy_helper_block_.73
+___destroy_helper_block_.74
 -[SDWebImageCodersManager removeCoder:]
 ___39-[SDWebImageCodersManager removeCoder:]_block_invoke
-___copy_helper_block_.80
-___destroy_helper_block_.81
+___copy_helper_block_.78
+___destroy_helper_block_.79
 -[SDWebImageCodersManager coders]
 ___33-[SDWebImageCodersManager coders]_block_invoke
+___copy_helper_block_.87
+___destroy_helper_block_.88
 -[SDWebImageCodersManager setCoders:]
 ___37-[SDWebImageCodersManager setCoders:]_block_invoke
-___copy_helper_block_.94
-___destroy_helper_block_.95
+___copy_helper_block_.92
+___destroy_helper_block_.93
 -[SDWebImageCodersManager canDecodeFromData:]
 -[SDWebImageCodersManager canEncodeToFormat:]
 -[SDWebImageCodersManager decodedImageWithData:]
@@ -2489,10 +2493,10 @@ _sharedInstance.instance
 _OBJC_IVAR_$_SDWebImageCodersManager._mutableCoders
 _OBJC_IVAR_$_SDWebImageCodersManager._mutableCodersAccessQueue
 l_OBJC_PROTOCOL_REFERENCE_$_SDWebImageCoder
-___block_descriptor_tmp.77
-___block_descriptor_tmp.82
-___block_descriptor_tmp.91
-___block_descriptor_tmp.96
+___block_descriptor_tmp.75
+___block_descriptor_tmp.80
+___block_descriptor_tmp.89
+___block_descriptor_tmp.94
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/SDWebImageCodersManager.m
 __37-[SDWebImageCodersManager setCoders:]_block_invoke
 __33-[SDWebImageCodersManager coders]_block_invoke
@@ -2561,9 +2565,7 @@ ___85-[UIButton(WebCache) sd_setImageWithURL:forState:placeholderImage:options:c
 -[UIButton(WebCache) sd_setBackgroundImageWithURL:forState:placeholderImage:completed:]
 -[UIButton(WebCache) sd_setBackgroundImageWithURL:forState:placeholderImage:options:completed:]
 ___95-[UIButton(WebCache) sd_setBackgroundImageWithURL:forState:placeholderImage:options:completed:]_block_invoke
--[UIButton(WebCache) sd_setImageLoadOperation:forState:]
 -[UIButton(WebCache) sd_cancelImageLoadForState:]
--[UIButton(WebCache) sd_setBackgroundImageLoadOperation:forState:]
 -[UIButton(WebCache) sd_cancelBackgroundImageLoadForState:]
 -[UIButton(WebCache) imageURLStorage]
 ___block_descriptor_tmp.29
@@ -2635,6 +2637,11 @@ _ConvertBGRAToBGR
 _ConvertBGRAToRGB
 _AddGreenToBlueAndRed
 _TransformColorInverse
+_kRGBAShuffle
+_kBGRShuffle
+_kRGBShuffle
+_kGreenShuffle
+_TransformColorInverse.k0g0g
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/lossless_neon.c
 TransformColorInverse
 DoGreenShuffle
@@ -2776,7 +2783,6 @@ Predictor1
 Predictor0
 VP8LDspInit
 CopyOrSwap
-BSwap32
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/../utils/endian_inl_utils.h
 VP8LConvertFromBGRA
 VP8LConvertBGRAToBGR_C
@@ -2825,12 +2831,11 @@ RescalerExportRowShrink
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/../utils/rescaler_utils.h
 RescalerExportRowExpand
 WebPRescalerDspInitNEON
--[UIView(WebCacheOperation) operationDictionary]
+-[UIView(WebCacheOperation) sd_operationDictionary]
 -[UIView(WebCacheOperation) sd_setImageLoadOperation:forKey:]
 -[UIView(WebCacheOperation) sd_cancelImageLoadOperationWithKey:]
 -[UIView(WebCacheOperation) sd_removeImageLoadOperationWithKey:]
 _loadOperationKey
-l_OBJC_PROTOCOL_REFERENCE_$_SDWebImageOperation
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/UIView+WebCacheOperation.m
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/utils/color_cache_utils.c
 VP8LColorCacheCopy
@@ -2927,8 +2932,6 @@ ___32+[SDImageCache sharedImageCache]_block_invoke
 -[SDImageCache initWithNamespace:]
 -[SDImageCache initWithNamespace:diskCacheDirectory:]
 ___53-[SDImageCache initWithNamespace:diskCacheDirectory:]_block_invoke
-___copy_helper_block_.37
-___destroy_helper_block_.38
 -[SDImageCache dealloc]
 -[SDImageCache checkIfQueueIsIOQueue]
 -[SDImageCache addReadOnlyCachePath:]
@@ -2941,16 +2944,18 @@ ___destroy_helper_block_.38
 -[SDImageCache storeImage:imageData:forKey:toDisk:completion:]
 ___62-[SDImageCache storeImage:imageData:forKey:toDisk:completion:]_block_invoke
 ___62-[SDImageCache storeImage:imageData:forKey:toDisk:completion:]_block_invoke_2
-___copy_helper_block_.105
-___destroy_helper_block_.106
-___copy_helper_block_.108
-___destroy_helper_block_.109
+___copy_helper_block_.107
+___destroy_helper_block_.108
+___copy_helper_block_.110
+___destroy_helper_block_.111
 -[SDImageCache storeImageDataToDisk:forKey:]
 -[SDImageCache diskImageExistsWithKey:completion:]
 ___50-[SDImageCache diskImageExistsWithKey:completion:]_block_invoke
 ___50-[SDImageCache diskImageExistsWithKey:completion:]_block_invoke_2
-___copy_helper_block_.132
-___destroy_helper_block_.133
+___copy_helper_block_.134
+___destroy_helper_block_.135
+___copy_helper_block_.137
+___destroy_helper_block_.138
 -[SDImageCache imageFromMemoryCacheForKey:]
 -[SDImageCache imageFromDiskCacheForKey:]
 -[SDImageCache imageFromCacheForKey:]
@@ -2960,18 +2965,18 @@ ___destroy_helper_block_.133
 -[SDImageCache queryCacheOperationForKey:done:]
 ___47-[SDImageCache queryCacheOperationForKey:done:]_block_invoke
 ___47-[SDImageCache queryCacheOperationForKey:done:]_block_invoke_2
-___copy_helper_block_.173
-___destroy_helper_block_.174
-___copy_helper_block_.176
-___destroy_helper_block_.177
+___copy_helper_block_.175
+___destroy_helper_block_.176
+___copy_helper_block_.178
+___destroy_helper_block_.179
 -[SDImageCache removeImageForKey:withCompletion:]
 -[SDImageCache removeImageForKey:fromDisk:withCompletion:]
 ___58-[SDImageCache removeImageForKey:fromDisk:withCompletion:]_block_invoke
 ___58-[SDImageCache removeImageForKey:fromDisk:withCompletion:]_block_invoke_2
-___copy_helper_block_.185
-___destroy_helper_block_.186
-___copy_helper_block_.188
-___destroy_helper_block_.189
+___copy_helper_block_.187
+___destroy_helper_block_.188
+___copy_helper_block_.190
+___destroy_helper_block_.191
 -[SDImageCache setMaxMemoryCost:]
 -[SDImageCache maxMemoryCost]
 -[SDImageCache maxMemoryCountLimit]
@@ -2980,41 +2985,35 @@ ___destroy_helper_block_.189
 -[SDImageCache clearDiskOnCompletion:]
 ___38-[SDImageCache clearDiskOnCompletion:]_block_invoke
 ___38-[SDImageCache clearDiskOnCompletion:]_block_invoke_2
-___copy_helper_block_.199
-___destroy_helper_block_.200
-___copy_helper_block_.202
-___destroy_helper_block_.203
+___copy_helper_block_.204
+___destroy_helper_block_.205
 -[SDImageCache deleteOldFiles]
 -[SDImageCache deleteOldFilesWithCompletionBlock:]
 ___50-[SDImageCache deleteOldFilesWithCompletionBlock:]_block_invoke
 ___50-[SDImageCache deleteOldFilesWithCompletionBlock:]_block_invoke_2
 ___50-[SDImageCache deleteOldFilesWithCompletionBlock:]_block_invoke_3
-___copy_helper_block_.246
-___destroy_helper_block_.247
-___copy_helper_block_.249
-___destroy_helper_block_.250
+___copy_helper_block_.248
+___destroy_helper_block_.249
+___copy_helper_block_.251
+___destroy_helper_block_.252
 -[SDImageCache backgroundDeleteOldFiles]
 ___40-[SDImageCache backgroundDeleteOldFiles]_block_invoke
-___copy_helper_block_.263
-___destroy_helper_block_.264
-___40-[SDImageCache backgroundDeleteOldFiles]_block_invoke.268
-___copy_helper_block_.269
-___destroy_helper_block_.270
+___40-[SDImageCache backgroundDeleteOldFiles]_block_invoke.270
 -[SDImageCache getSize]
 ___23-[SDImageCache getSize]_block_invoke
-___copy_helper_block_.280
-___destroy_helper_block_.281
+___copy_helper_block_.282
+___destroy_helper_block_.283
 -[SDImageCache getDiskCount]
 ___28-[SDImageCache getDiskCount]_block_invoke
-___copy_helper_block_.287
-___destroy_helper_block_.288
+___copy_helper_block_.289
+___destroy_helper_block_.290
 -[SDImageCache calculateSizeWithCompletionBlock:]
 ___49-[SDImageCache calculateSizeWithCompletionBlock:]_block_invoke
 ___49-[SDImageCache calculateSizeWithCompletionBlock:]_block_invoke_2
-___copy_helper_block_.292
-___destroy_helper_block_.293
-___copy_helper_block_.295
-___destroy_helper_block_.296
+___copy_helper_block_.294
+___destroy_helper_block_.295
+___copy_helper_block_.297
+___destroy_helper_block_.298
 -[SDImageCache config]
 -[SDImageCache memCache]
 -[SDImageCache setMemCache:]
@@ -3032,25 +3031,22 @@ _OBJC_IVAR_$_SDImageCache._config
 _OBJC_IVAR_$_SDImageCache._memCache
 _OBJC_IVAR_$_SDImageCache._diskCachePath
 _OBJC_IVAR_$_SDImageCache._fileManager
-___block_descriptor_tmp.39
-___block_descriptor_tmp.107
-___block_descriptor_tmp.110
-___block_descriptor_tmp.134
-___block_descriptor_tmp.175
-___block_descriptor_tmp.178
-___block_descriptor_tmp.187
-___block_descriptor_tmp.190
-___block_descriptor_tmp.201
-___block_descriptor_tmp.204
-___block_descriptor_tmp.243
-___block_descriptor_tmp.248
-___block_descriptor_tmp.251
-___block_descriptor_tmp.265
-___block_descriptor_tmp.271
-___block_descriptor_tmp.282
-___block_descriptor_tmp.289
-___block_descriptor_tmp.294
-___block_descriptor_tmp.297
+___block_descriptor_tmp.109
+___block_descriptor_tmp.112
+___block_descriptor_tmp.136
+___block_descriptor_tmp.139
+___block_descriptor_tmp.177
+___block_descriptor_tmp.180
+___block_descriptor_tmp.189
+___block_descriptor_tmp.192
+___block_descriptor_tmp.206
+___block_descriptor_tmp.245
+___block_descriptor_tmp.250
+___block_descriptor_tmp.253
+___block_descriptor_tmp.284
+___block_descriptor_tmp.291
+___block_descriptor_tmp.296
+___block_descriptor_tmp.299
 _OBJC_IVAR_$_SDImageCache._customPaths
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/SDImageCache.m
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/SDImageCache.h
@@ -3058,7 +3054,7 @@ __49-[SDImageCache calculateSizeWithCompletionBlock:]_block_invoke_2
 __49-[SDImageCache calculateSizeWithCompletionBlock:]_block_invoke
 __28-[SDImageCache getDiskCount]_block_invoke
 __23-[SDImageCache getSize]_block_invoke
-__40-[SDImageCache backgroundDeleteOldFiles]_block_invoke.268
+__40-[SDImageCache backgroundDeleteOldFiles]_block_invoke.270
 __40-[SDImageCache backgroundDeleteOldFiles]_block_invoke
 __50-[SDImageCache deleteOldFilesWithCompletionBlock:]_block_invoke_3
 __50-[SDImageCache deleteOldFilesWithCompletionBlock:]_block_invoke_2
@@ -3100,6 +3096,8 @@ __32+[SDImageCache sharedImageCache]_block_invoke
 -[FLAnimatedImageView displayDidRefresh:]
 ___41-[FLAnimatedImageView displayDidRefresh:]_block_invoke
 ___41-[FLAnimatedImageView displayDidRefresh:]_block_invoke.140
+___copy_helper_block_.143
+___destroy_helper_block_.144
 ___41-[FLAnimatedImageView displayDidRefresh:]_block_invoke.162
 ___copy_helper_block_.165
 ___destroy_helper_block_.166
@@ -3127,6 +3125,7 @@ ___destroy_helper_block_.166
 _OBJC_IVAR_$_FLAnimatedImageView._animatedImage
 _OBJC_IVAR_$_FLAnimatedImageView._displayLink
 _OBJC_IVAR_$_FLAnimatedImageView._runLoopMode
+___block_descriptor_tmp.145
 ___block_descriptor_tmp.167
 _OBJC_IVAR_$_FLAnimatedImageView._loopCompletionBlock
 _OBJC_IVAR_$_FLAnimatedImageView._currentFrame
@@ -3143,23 +3142,28 @@ __41-[FLAnimatedImageView displayDidRefresh:]_block_invoke
 -[UIView(WebCache) sd_imageURL]
 -[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:]
 -[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]
-___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.8
-___copy_helper_block_.9
-___destroy_helper_block_.10
-___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.18
+___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.12
+___copy_helper_block_.13
+___destroy_helper_block_.14
+___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.22
 ___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke_2
-___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.30
-___copy_helper_block_.31
-___destroy_helper_block_.32
 ___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.34
 ___copy_helper_block_.35
 ___destroy_helper_block_.36
+___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.38
+___copy_helper_block_.39
+___destroy_helper_block_.40
 ___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.46
-___copy_helper_block_.55
-___destroy_helper_block_.56
+___copy_helper_block_.47
+___destroy_helper_block_.48
+___copy_helper_block_.50
+___destroy_helper_block_.51
 ___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.58
-___copy_helper_block_.59
-___destroy_helper_block_.60
+___copy_helper_block_.67
+___destroy_helper_block_.68
+___126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.70
+___copy_helper_block_.71
+___destroy_helper_block_.72
 -[UIView(WebCache) sd_cancelCurrentImageLoad]
 -[UIView(WebCache) sd_setImage:imageData:basedOnClassOrViaCustomSetImageBlock:]
 -[UIView(WebCache) sd_setNeedsLayout]
@@ -3171,43 +3175,46 @@ ___destroy_helper_block_.60
 -[UIView(WebCache) sd_getIndicatorStyle]
 -[UIView(WebCache) sd_addActivityIndicator]
 ___43-[UIView(WebCache) sd_addActivityIndicator]_block_invoke
-___copy_helper_block_.101
-___destroy_helper_block_.102
-___43-[UIView(WebCache) sd_addActivityIndicator]_block_invoke.104
+___43-[UIView(WebCache) sd_addActivityIndicator]_block_invoke.118
+___copy_helper_block_.119
+___destroy_helper_block_.120
 -[UIView(WebCache) sd_removeActivityIndicator]
 ___46-[UIView(WebCache) sd_removeActivityIndicator]_block_invoke
-___copy_helper_block_.110
-___destroy_helper_block_.111
-___46-[UIView(WebCache) sd_removeActivityIndicator]_block_invoke.113
-___copy_helper_block_.114
-___destroy_helper_block_.115
+___copy_helper_block_.124
+___destroy_helper_block_.125
+___46-[UIView(WebCache) sd_removeActivityIndicator]_block_invoke.127
 _imageURLKey
-___block_descriptor_tmp.11
-___block_descriptor_tmp.33
+___block_descriptor_tmp.15
 ___block_descriptor_tmp.37
-___block_descriptor_tmp.57
-___block_descriptor_tmp.61
+___block_descriptor_tmp.41
+___block_descriptor_tmp.49
+___block_descriptor_tmp.53
+___block_descriptor_tmp.69
+___block_descriptor_tmp.73
 _TAG_ACTIVITY_INDICATOR
 _TAG_ACTIVITY_SHOW
 _TAG_ACTIVITY_STYLE
-___block_descriptor_tmp.103
-___block_descriptor_tmp.112
-___block_descriptor_tmp.116
+___block_descriptor_tmp.121
+___block_descriptor_tmp.126
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/SDWebImage/UIView+WebCache.m
-__46-[UIView(WebCache) sd_removeActivityIndicator]_block_invoke.113
+__46-[UIView(WebCache) sd_removeActivityIndicator]_block_invoke.127
 __46-[UIView(WebCache) sd_removeActivityIndicator]_block_invoke
-__43-[UIView(WebCache) sd_addActivityIndicator]_block_invoke.104
+__43-[UIView(WebCache) sd_addActivityIndicator]_block_invoke.118
 __43-[UIView(WebCache) sd_addActivityIndicator]_block_invoke
+__126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.70
 __126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.58
 __126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.46
+__126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.38
 __126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.34
-__126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.30
 __126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke_2
-__126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.18
-__126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.8
+__126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.22
+__126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.42
+__126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.30
+__126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke.12
 __126-[UIView(WebCache) sd_internalSetImageWithURL:placeholderImage:options:operationKey:setImageBlock:progress:completed:context:]_block_invoke
 _SubtractGreenFromBlueAndRed
 _TransformColor
+_TransformColor.k0g0g
 /Users/yuto.yazaki/github/moguna-ios/Carthage/Checkouts/SDWebImage/Vendors/libwebp/src/dsp/lossless_enc_neon.c
 TransformColor
 SubtractGreenFromBlueAndRed
@@ -3258,7 +3265,29 @@ WebPPictureAllocYUVA
 WebPPictureAllocARGB
 DummyWriter
 __ZL15__ARCLite__loadv
+__ZL30add_image_hook_autoreleasepoolPK11mach_headerl
+__ZL34__arclite_objc_autoreleasePoolPushv
+__ZL33__arclite_objc_autoreleasePoolPopPv
+__ZL19patch_lazy_pointersPK11mach_headerP7patch_tm
+__ZL42__arclite_NSArray_objectAtIndexedSubscriptP7NSArrayP13objc_selectorj
+__ZL53__arclite_NSMutableArray_setObject_atIndexedSubscriptP14NSMutableArrayP13objc_selectorP11objc_objectj
+__ZL46__arclite_NSDictionary_objectForKeyedSubscriptP12NSDictionaryP13objc_selectorP11objc_object
+__ZL47__arclite_NSOrderedSet_objectAtIndexedSubscriptP12NSOrderedSetP13objc_selectorj
+__ZL58__arclite_NSMutableOrderedSet_setObject_atIndexedSubscriptP19NSMutableOrderedSetP13objc_selectorP11objc_objectj
 __ZL58__arclite_NSMutableDictionary__setObject_forKeyedSubscriptP19NSMutableDictionaryP13objc_selectorP11objc_objectS4_
+__ZL18add_image_hook_ARCPK11mach_headerl
+__ZL36__arclite_object_setInstanceVariableP11objc_objectPKcPv
+__ZL24__arclite_object_setIvarP11objc_objectP9objc_ivarS0_
+__ZL21__arclite_object_copyP11objc_objectm
+__ZL21__arclite_objc_retainP11objc_object
+__ZL26__arclite_objc_retainBlockP11objc_object
+__ZL22__arclite_objc_releaseP11objc_object
+__ZL26__arclite_objc_autoreleaseP11objc_object
+__ZL32__arclite_objc_retainAutoreleaseP11objc_object
+__ZL37__arclite_objc_autoreleaseReturnValueP11objc_object
+__ZL43__arclite_objc_retainAutoreleaseReturnValueP11objc_object
+__ZL44__arclite_objc_retainAutoreleasedReturnValueP11objc_object
+__ZL26__arclite_objc_storeStrongPP11objc_objectS0_
 __ZL22add_image_hook_swiftV1PK11mach_headerl
 __ZL42__arclite_NSUndoManagerProxy_isKindOfClassP11objc_objectP13objc_selectorP10objc_class
 __ZL13replaceMethodP10objc_classP13objc_selectorPFP11objc_objectS4_S2_zEPS6_
@@ -3302,9 +3331,17 @@ __ZL11_class_name
 __ZL32OBJC_$_CLASS_METHODS___ARCLite__
 __ZL17_load_method_name
 __ZL17_load_method_type
+__ZL23NSAutoreleasePool_class
+__ZZL30add_image_hook_autoreleasepoolPK11mach_headerlE7patches
+__ZGVZL30add_image_hook_autoreleasepoolPK11mach_headerlE7patches
+l_OBJC_PROTOCOL_$___ARCLiteIndexedSubscripting__
+l_OBJC_LABEL_PROTOCOL_$___ARCLiteIndexedSubscripting__
+l_OBJC_PROTOCOL_REFERENCE_$___ARCLiteIndexedSubscripting__
 l_OBJC_PROTOCOL_$___ARCLiteKeyedSubscripting__
 l_OBJC_LABEL_PROTOCOL_$___ARCLiteKeyedSubscripting__
 l_OBJC_PROTOCOL_REFERENCE_$___ARCLiteKeyedSubscripting__
+__ZZL18add_image_hook_ARCPK11mach_headerlE7patches
+__ZGVZL18add_image_hook_ARCPK11mach_headerlE7patches
 __ZL30NSUndoManagerProxy_targetClass
 __ZL29original_NSManagedObject_init
 __ZL40original_NSManagedObject_allocWithEntity
@@ -3332,16 +3369,15 @@ __ZL25original_protocol_getName
 __ZL36original_objc_copyClassNamesForImage
 __ZL12demangleLock
 __ZL9Demangled
-Apple LLVM version 9.0.0 (clang-900.0.35)
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++ -arch arm64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=c++11 -Wno-trigraphs -fno-exceptions -fno-rtti -fno-sanitize=vptr -mpascal-strings -Os -Wno-missing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties -Wno-arc-repeated-use-of-weak -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -Wno-c++11-extensions -D NDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.Internal.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -miphoneos-version-min=4.3 -g -fno-threadsafe-statics -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -fembed-bitcode=all -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-generated-files.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-own-target-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-all-target-headers.hmap -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-project-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts/include -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources/arm64 -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources -F/Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.Internal.sdk/System/Library/PrivateFrameworks -Wall -Wextra -Wno-gcc-compat -Wno-error=incomplete-umbrella -Wno-error=incomplete-umbrella -MMD -MT dependencies -MF /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/arm64/arclite.d --serialize-diagnostics /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/arm64/arclite.dia -c /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-66/source/arclite.mm -o /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/arm64/arclite.o -mlinker-version=302.3
-/Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-66/source/arclite.mm
-/Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-66
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++ -arch armv7 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=c++11 -Wno-trigraphs -fno-exceptions -fno-rtti -fno-sanitize=vptr -mpascal-strings -Os -Wno-missing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties -Wno-arc-repeated-use-of-weak -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -Wno-c++11-extensions -D NDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.Internal.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -miphoneos-version-min=4.3 -g -fno-threadsafe-statics -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -fembed-bitcode=all -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-generated-files.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-own-target-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-all-target-headers.hmap -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-project-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts/include -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources/armv7 -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources -F/Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.Internal.sdk/System/Library/PrivateFrameworks -Wall -Wextra -Wno-gcc-compat -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -MMD -MT dependencies -MF /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.d --serialize-diagnostics /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.dia -c /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67/source/arclite.mm -o /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.o -mlinker-version=302.3.1 -march=armv7a
+/Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67/source/arclite.mm
+/Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67
 fixStringForCoreData
 cxxConstruct
 arclite_uninitialized_function
 scanMangledField
 isdigit
-/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.Internal.sdk/usr/include/ctype.h
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.Internal.sdk/usr/include/ctype.h
 __isctype
 demangledName
 copySwiftV1DemangledName
@@ -3386,7 +3422,6 @@ __arclite_NSManagedObject_init
 replaceMethod
 __arclite_NSUndoManagerProxy_isKindOfClass
 add_image_hook_swiftV1
-patch_lazy_pointers
 patch_t<const char **(const char *, unsigned int *)>
 patch_t<const char *(Protocol *)>
 patch_t<const char *(Class)>
@@ -3395,9 +3430,51 @@ patch_t<Class (const char *)>
 patch_t<void *(id)>
 patch_t<Class (Class, const char *, unsigned long)>
 patch_t<Class (Class, const objc_image_info *)>
+__arclite_objc_storeStrong
+__arclite_objc_release
+__arclite_objc_retain
+__arclite_objc_retainAutoreleasedReturnValue
+__arclite_objc_retainAutoreleaseReturnValue
+__arclite_objc_autoreleaseReturnValue
+__arclite_objc_retainAutorelease
+__arclite_objc_autorelease
+__arclite_objc_retainBlock
+__arclite_object_copy
+fixupCopiedReferences
+_class_getInstanceStart
+alignedInstanceStart
+__arclite_class_usesAutomaticRetainRelease
+classOrSuperClassesUseARR
+__arclite_object_setIvar
+isScannedOffset
+_ivar_getClass
+__arclite_object_setInstanceVariable
+add_image_hook_ARC
+patch_t<void (id *, id)>
+patch_t<id (id)>
+patch_t<void (id)>
+patch_t<id (id, unsigned long)>
+patch_t<void (id, objc_ivar *, id)>
+patch_t<objc_ivar *(id, const char *, void *)>
 __arclite_NSMutableDictionary__setObject_forKeyedSubscript
+__arclite_NSMutableOrderedSet_setObject_atIndexedSubscript
+__arclite_NSOrderedSet_objectAtIndexedSubscript
+__arclite_NSDictionary_objectForKeyedSubscript
+__arclite_NSMutableArray_setObject_atIndexedSubscript
+__arclite_NSArray_objectAtIndexedSubscript
+patch_lazy_pointers
+__arclite_objc_autoreleasePoolPop
+__arclite_objc_autoreleasePoolPush
+add_image_hook_autoreleasepool
+patch_t<void (void *)>
+patch_t<void *()>
 __ARCLite__load
 install_swiftV1
+install_ARC
 install_dict_nil_value
 addOrReplaceMethod
 keyedGetter
+install_subscripting
+addMethod
+indexedGetter
+install_autoreleasepool

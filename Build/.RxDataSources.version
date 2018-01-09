@@ -2,12 +2,12 @@
   "commitish" : "3.0.2",
   "iOS" : [
     {
-      "name" : "Differentiator",
-      "hash" : "59b37bc62dd93f2f99abceae8fd7f0c224467430faf1a15451e1bebe37dd4800"
+      "name" : "RxDataSources",
+      "hash" : "ab050598d5d4dae11eb55ab4467a7ab0e9dee292eaaf1e5509435b871220f986"
     },
     {
-      "name" : "RxDataSources",
-      "hash" : "ccf261722a210c3b0a713963852c2ae28dc7c7419c1db00361b334156e00d524"
+      "name" : "Differentiator",
+      "hash" : "b727a62e84222ed372959a9720d41a237b3ba26428e309a6f99673d74b76e8ac"
     }
   ]
 }
