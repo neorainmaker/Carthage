@@ -1,21 +1,21 @@
 {
-  "commitish" : "4.0.0",
+  "commitish" : "4.1.0",
   "iOS" : [
     {
-      "name" : "RxCocoa",
-      "hash" : "15173ab9cbd14389a3039d39b3e19830275c323cc364c2377ad96b1c6b7549a3"
-    },
-    {
-      "name" : "RxSwift",
-      "hash" : "463dab35721eb537286ef53c2477210ff37c3a2d6d71bc962c209938595a5a3b"
+      "name" : "RxTest",
+      "hash" : "51ca2c5ee98dc595ca7b4cdc6167f2c0196b1cd932548075ffc48f690a874904"
     },
     {
       "name" : "RxBlocking",
-      "hash" : "e1fca9a76fa73f8cba5530fee3775cf295cea0a55c7bb5c45c9ed1c1a321b1e9"
+      "hash" : "e6d3b2981cf3d200bdf0a6a15176fbf1b97afed1a02d08c5a5bc5a4d4e64af4d"
     },
     {
-      "name" : "RxTest",
-      "hash" : "1f41ea60c47b900ae1e106ebf7802dc9c8e9573ec8f2fffff77d000f26d31e80"
+      "name" : "RxCocoa",
+      "hash" : "7faa19b10a84fec77d6addff72e688915ab55f85f522adb0c80f1ce9442ff73d"
+    },
+    {
+      "name" : "RxSwift",
+      "hash" : "11798d93012d5620906ef1bff02dd3b2d2bd0c0c70b6c23735a7f8956c14d76e"
     }
   ]
 }
