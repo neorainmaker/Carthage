@@ -1,0 +1,9 @@
+{
+  "commitish" : "test_library4.12.1",
+  "iOS" : [
+    {
+      "name" : "AdjustSdk",
+      "hash" : "9dfa8db6b7fdd295696c9a5d905b56c48b230808c25ead55931c3f30bdfdd713"
+    }
+  ]
+}
